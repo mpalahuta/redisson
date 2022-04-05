@@ -297,6 +297,21 @@ public class RedissonSessionManagerTest {
         TimeUnit.SECONDS.sleep(60);
         Assert.assertEquals(0, r.getKeys().count());
     }
+
+    @Test
+    public void testAttributesRobustness() throws Exception {
+        TomcatServer server = new TomcatServer("myapp", 8080, "src/test/robustness/");
+        server.start();
+
+        Executor executor = Executor.newInstance();
+
+        write(8080, executor, "test", "1234");
+        read(8080, executor, "test", "1234");
+        remove(executor, "test", "null");
+
+        Executor.closeIdleConnections();
+        server.stop();
+    }
     
     private void write(int port, Executor executor, String key, String value) throws IOException {
         String url = "http://localhost:" + port + "/myapp/write?key=" + key + "&value=" + value;
