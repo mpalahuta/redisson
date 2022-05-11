@@ -85,4 +85,12 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>intl-release</id>
+            <name>Care.com INTL internal releases repository</name>
+            <url>https://artifactory.gold.mgmt.carezen.net/artifactory/intl-maven-release-local</url>
+        </repository>
+    </distributionManagement>
+
 </project>
